@@ -1,0 +1,40 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - Terraform/*
+    - terraform/*
+
+parameters:
+- name: peTemplateVersion
+  displayName: "Pipeline Template Version"
+  type: string
+  default: 'refs/heads/version/v7'
+
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: Product Engineering/pe-pipelines-templates
+    ref: ${{ parameters.peTemplateVersion }}
+
+variables:
+- template: pipeline-variables.yml
+- template: variables/${{lower(variables['platform'])}}_variable.yml@templates
+
+extends:
+  template: pipelines/pda/backend/terraformplan_pipeline.yml@templates
+  parameters:
+    terraformScriptPath: ${{ variables.iacScriptPath }}
+    serviceconnector_dev: ${{ variables.serviceconnector_dev }}
+    serviceconnector_qa: ${{ variables.serviceconnector_qa }}
+    serviceconnector_npd: ${{ variables.serviceconnector_sit }}
+    serviceconnector_ppd: ${{ variables.serviceconnector_ppd }}
+    serviceconnector_prd: ${{ variables.serviceconnector_prd }}
+    repository: ${{ variables.repository }}
+    Job_Name_Prefix: Pipeline
+    isUsingCentralTerraform: ${{ variables.isUsingCentralIac }}

@@ -1,0 +1,28 @@
+name: PR Format Validation
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/**'
+      - 'pipelines/**'
+      - 'catalog-info.yaml'
+      - '.gitignore'
+      - 'mkdocs.yml'
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  pr-validation:
+    if: github.actor != 'dependabot[bot]'
+    uses: royalmail/devops-github-actions/.github/workflows/pr-validation.yml@v1
+    with:
+      require_work_item: true
+    secrets: inherit
+    

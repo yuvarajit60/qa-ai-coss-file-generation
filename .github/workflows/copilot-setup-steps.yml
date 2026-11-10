@@ -1,0 +1,74 @@
+# Copilot Setup Steps
+# -------------------
+# This file configures the development environment for the GitHub Copilot coding agent.
+# When Copilot is assigned an issue (e.g. via AI workflows), it reads this file to
+# understand how to set up the repo before making code changes.
+#
+# To customise: uncomment the language setup steps relevant to your repo's stack.
+# You can also add project-specific steps like installing dependencies (npm install,
+# pip install -r requirements.txt, dotnet restore, mvn install, etc.)
+
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+# Explicitly grant repository read access for checkout in restricted orgs.
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          token: ${{ github.token }}
+          fetch-depth: 2
+
+
+      # --- Uncomment the setup steps for your repo's language/runtime ---
+
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "20"
+      # - name: Install Node dependencies
+      #   run: npm ci
+
+      # - name: Setup Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: "3.12"
+      # - name: Install Python dependencies
+      #   run: pip install -r requirements.txt
+
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: "8.x"
+      # - name: Restore .NET dependencies
+      #   run: dotnet restore
+
+      # - name: Setup Java
+      #   uses: actions/setup-java@v4
+      #   with:
+      #     distribution: temurin
+      #     java-version: "21"
+      # - name: Install Java dependencies
+      #   run: mvn dependency:resolve
+
+      # - name: Setup Go
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: "1.22"

@@ -1,0 +1,19 @@
+name: Remove Stale PRs & Branches
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # 12 am every Sunday
+    
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  cleanup-stale-items:
+    uses: royalmail/devops-github-actions/.github/workflows/cleanup-stale-items.yml@v1
+    secrets: inherit
+    with:
+      pr_days_before_stale: 30
+      pr_days_before_close: 7
+      branch_days_before_delete: 90 # To prevent specific branches from being deleted set a branch protection policy to restrict deletions. The default branch will never be deleted.

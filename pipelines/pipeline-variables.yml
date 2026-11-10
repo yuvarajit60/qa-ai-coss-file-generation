@@ -1,0 +1,57 @@
+variables:
+- name: platform
+  value: qa
+- name: repository
+  value: qa-ai-test-data-generator
+- name: iacScriptPath
+  value: "Terraform"
+- name: deployableComponent
+  value: application_deploy     # possible values - application_deploy; application_sqlscripts_deploy
+- name: applicationType       # possible values - functionapp; webApp; webAppLinux
+  value: webAppLinux
+##################### Region Configuration #############################
+- name: primaryRegion
+  value: SwedenCentral
+- name: secondaryRegion
+  value: GermanyWestCentral
+- name: architecture
+  value: activeactive
+- name: qaStageRequired
+  value: "true"
+##################### Service Connection Details #############################
+- name: isUsingCentralIac
+  value: false                 # Using azure artifact for terraform module registry
+- name: serviceconnector_dev
+  value: "rmg-ne-etpnlze-c-mi01"
+- name: serviceconnector_qa
+  value: "rmg-ne-etpnlze-c-mi01"
+- name: serviceconnector_sit
+  value: "rmg-ne-etpnlze-c-mi01"
+- name: serviceconnector_ppd
+  value: "rmg-ne-etpnlze-c-mi01"
+- name: serviceconnector_prd
+  value: "rmg-ne-etpnlze-c-mi01"
+##################### Generic Pipeline Pool Keys #############################
+- name: code_pool_name_dev
+  value: "rmg-agw-etp-ssp-v-mdp01"
+- name: code_pool_name_qa
+  value: "rm-etpnlze-c-01"
+- name: code_pool_name_sit
+  value: "rm-etpnlze-c-01"
+- name: code_pool_name_ppd
+  value: "rm-etpnlze-c-01"
+- name: code_pool_name_prd
+  value: "rm-etpnlze-c-01"
+- name: iac_pool_name_dev
+  value: "rmg-agw-etp-ssp-v-mdp01"
+- name: iac_pool_name_qa
+  value: "rm-etpnlze-c-01"
+- name: iac_pool_name_sit
+  value: "rm-etpnlze-c-01"
+- name: iac_pool_name_ppd
+  value: "rm-etpnlze-c-01"
+- name: iac_pool_name_prd
+  value: "rm-etpnlze-c-01"
+##################### Terraform Config #############################
+- name: useCloudsmithTerraformRegistry
+  value: true

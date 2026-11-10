@@ -1,0 +1,15 @@
+{
+  "name": "royalmail-test-data-generator",
+  "version": "1.0.0",
+  "description": "Royal Mail ProShipping Dual Agent Test Data & Label Generator",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.13.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,25 @@
+name: Tag on Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/**'
+      - 'pipelines/**'
+      - 'catalog-info.yaml'
+      - '.gitignore'
+      - 'mkdocs.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deployment-trigger:
+    uses: royalmail/devops-github-actions/.github/workflows/tag-on-merge.yml@v1
+    secrets: inherit

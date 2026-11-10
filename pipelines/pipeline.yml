@@ -1,0 +1,86 @@
+trigger: none
+pr: none
+
+variables:
+- template: pipeline-variables.yml
+
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: Product Engineering/pe-pipelines-templates
+    ref: ${{ parameters.peTemplateVersion }}
+
+parameters:
+
+- name: deploymentEnvironment
+  displayName: Select Deployment Environment
+  type: stringList
+  default: ["DEV"]
+  values:
+  - ALL
+  - DEV
+  - QA
+  - SIT
+  - PPD
+  - PRD
+
+- name: deploymentRegion
+  type: string
+  displayName: Select Deployment Region Mode
+  default: ALL
+  values:
+  - All
+  - ALL
+  - PRIMARY
+  - SECONDARY
+
+- name: action
+  displayName: Action
+  type: string
+  default: 'Plan'
+  values:
+  - Plan
+  - Apply
+
+- name: peTemplateVersion
+  displayName: "Pipeline Template Version"
+  type: string
+  default: 'refs/heads/version/v7'
+
+- name: applicationVersion
+  displayName: "Application Version"
+  type: string
+  default: ''
+
+extends:
+  template: pipelines/generic/backend/pipeline.yml@templates
+  parameters:
+    action : ${{ parameters.action }}
+    iacScriptPath : ${{ variables.iacScriptPath }}
+    serviceconnector_dev : ${{ variables.serviceconnector_dev }}
+    serviceconnector_qa : ${{ variables.serviceconnector_qa }}
+    serviceconnector_sit : ${{ variables.serviceconnector_sit }}
+    serviceconnector_ppd : ${{ variables.serviceconnector_ppd }}
+    serviceconnector_prd : ${{ variables.serviceconnector_prd }}
+    repository : ${{ variables.repository }}
+    deployableComponent : ${{ variables.deployableComponent }}
+    applicationList :
+    - appName: '$(app_name)'
+      zipFileName: '*.zip'
+      applicationType: ${{ variables.applicationType }}
+      resourceGroupName: '$(app_rg)'
+    deploymentRegion: ${{ parameters.deploymentRegion }}
+    deploymentEnvironment: ${{ join(',', parameters.deploymentEnvironment) }}
+    applicationVersion: ${{ parameters.applicationVersion }}
+    cloudsmithPackage: ${{ variables.repository }}
+    useCloudsmithTerraformRegistry: ${{ variables.useCloudsmithTerraformRegistry }}
+    primaryRegion: ${{ variables.primaryRegion }}
+    secondaryRegion: ${{ variables.secondaryRegion }}
+    cloudsmithSnapshotRepo: "${{ variables.platform }}-snapshots"
+    cloudsmithReleaseRepo: "${{ variables.platform }}-releases"
+    cloudsmithOidcServiceSlug: "${{ variables.platform }}-promote"
+    platform: ${{ variables.platform }}
+    qaStageRequired: ${{ eq(lower(variables.qaStageRequired), 'true') }}
+    architecture: ${{variables.architecture}}
+    deployCodeOnly: true

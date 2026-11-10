@@ -1,0 +1,50 @@
+name: Update Workflow Refs
+
+# Repins this repository's royalmail/devops-github-actions references from one
+# git ref to another, and opens a PR with the result.
+#
+# You normally never need this. The workflows here pin the floating major tag
+# (@v1), which devops-github-actions force-moves onto every release, so minor
+# and patch releases are inherited automatically with no change on your side.
+#
+# It is needed only when devops-github-actions cuts a new MAJOR version - which
+# means a breaking change - and you are ready to move onto it. That is why this
+# is manual rather than scheduled: nothing should move you onto a breaking
+# release without a decision.
+#
+# Defaults to a dry run, which reports what would change without opening a PR.
+#
+# The estate can also be swept centrally from devops-github-actions
+# (pin-workflow-refs-estate.yml); both share the same rewrite, so running this
+# yourself and being included in a central sweep produce the same result.
+
+on:
+  workflow_dispatch:
+    inputs:
+      to_ref:
+        description: 'Ref to pin to (e.g. v2)'
+        required: true
+        type: string
+      from_ref:
+        description: 'Ref currently pinned'
+        required: false
+        default: 'v1'
+        type: string
+      dry_run:
+        description: 'Report the changes without opening a PR'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  repin:
+    uses: royalmail/devops-github-actions/.github/workflows/update-workflow-refs.yml@v1
+    with:
+      to-ref: ${{ inputs.to_ref }}
+      from-ref: ${{ inputs.from_ref }}
+      dry-run: ${{ inputs.dry_run == true || inputs.dry_run == 'true' }}
+    secrets: inherit

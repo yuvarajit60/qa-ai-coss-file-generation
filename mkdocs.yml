@@ -1,0 +1,12 @@
+site_name: Docs
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Setup: setup.md
+  - Configuration: configuration.md
+  - Troubleshooting: troubleshooting.md
+plugins:
+  - techdocs-core
+markdown_extensions:
+  - markdown_inline_mermaid
+

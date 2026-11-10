@@ -1,0 +1,59 @@
+# Dependabot configuration
+# Documentation: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # GitHub Actions - Monitor workflow dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "00:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "royalmail/{{ values.codeOwners }}"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Docker - Monitor Dockerfile and container images
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "00:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "royalmail/{{ values.codeOwners }}"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # NuGet dependencies
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "00:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "royalmail/{{ values.codeOwners }}"
+    labels:
+      - "dependencies"
+      - "nuget"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      nuget-dependencies:
+        patterns:
+          - "*"

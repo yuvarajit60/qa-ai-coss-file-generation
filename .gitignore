@@ -1,0 +1,76 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Log Files
+*.log
+logs/
+*.log.*
+
+# Temporary Files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Environment Files
+.env
+.env.local
+.env.*.local
+
+# Build Artifacts (generic)
+dist/
+build/
+out/
+target/
+*.o
+*.a
+*.so
+*.exe
+*.dll
+
+# Dependency Directories (common package managers)
+node_modules/
+vendor/
+packages/
+
+# Backup Files
+*.bak
+*.backup
+*~
+
+# Archive Files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Cache Directories
+.cache/
+*.cache
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Tester feedback, not part of the app
+COSS Web App Issue.docx

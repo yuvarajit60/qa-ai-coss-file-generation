@@ -1,0 +1,57 @@
+
+
+# name: "CI - Code Quality & Dependency Security"
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths-ignore:
+#       - 'docs/**'
+#       - 'README.md'
+#       - '.github/**'
+#       - 'pipelines/**'
+#       - 'catalog-info.yaml'
+#       - '.gitignore'
+#       - 'mkdocs.yml'
+#       - 'Terraform/**'
+#       - '**/*.md'
+#   pull_request:
+#     branches:
+#       - main
+#     types: [opened, synchronize, reopened]
+#     paths-ignore:
+#       - 'docs/**'
+#       - 'README.md'
+#       - '.github/**'
+#       - 'pipelines/**'
+#       - 'catalog-info.yaml'
+#       - '.gitignore'
+#       - 'mkdocs.yml'
+#       - 'Terraform/**'
+#       - '**/*.md'
+#   workflow_dispatch:
+
+# permissions:
+#   contents: read
+#   pull-requests: read
+
+
+
+
+# jobs:
+
+#   pull-request:
+
+
+
+#     uses: royalmail/devops-github-actions/.github/workflows/ci-pull-request-dotnet.yml@v1
+#     secrets: inherit
+#     with:
+#       analysis_sources: "."
+#       analysis_exclusions: "**/bin/**,**/obj/**,**/*.razor,**/_Imports.razor,**/wwwroot/**,**/Terraform/**,**/.github/**,**/pipelines/**,**/docs/**,**/*.json,**/*.md"
+
+#       ado_project: "TBC"
+#       ado_internal_feed: ""
+#       dotnet_version: "10.0.x"
+

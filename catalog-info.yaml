@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: qa-ai-test-data-generator
+  title: "ai test data generator"
+  description: AI test data generator application.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: royalmail/qa-ai-test-data-generator
+    custom/repo-name: qa-ai-test-data-generator
+    sonarqube.org/project-key: royalmail/royalmail_qa-ai-test-data-generator
+    custom/service-offering: container-apps
+    launchdarkly.com/project-key: qa
+    launchdarkly.com/filter-query: 'query:tags:qa-ai-test-data-generator'
+    dev.azure.com/project: 'TBC'
+    dev.azure.com/build-definition: 'qa-ai-test-data-generator-deploy-cd'
+  tags:
+    - qa
+spec:
+  type: backend-service
+  lifecycle: production
+  owner: group:royalmail/qa
+  system: qa-container-apps
+  

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal Mail ProShipping Dual Agent Orchestrator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <!-- Royal Mail Logo Image -->
+          <img src="assets/royal_mail_logo.png" alt="Royal Mail Logo" class="logo-image">
+          <div class="sidebar-title">ProShipping Orchestrator</div>
+        </div>
+      </div>
+
+      <div class="module-selector">
+        <label for="moduleSelect">Module</label>
+        <select id="moduleSelect" onchange="switchModule(this.value)">
+          <option value="proshipping">ProShipping Test Data &amp; Labels</option>
+          <option value="coss">COSS File Generation</option>
+        </select>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-module="proshipping" onclick="scrollToStage(1)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Stage 1: CSV Generator
+        </div>
+        <div class="nav-item" data-module="proshipping" onclick="scrollToStage(2)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Stage 2: ProShipper API Call & Label Generation
+        </div>
+        <div class="nav-item active" data-module="coss" onclick="scrollToStage('Coss')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+          COSS File Generator
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <div class="header-title">
+          <h1 id="headerTitle">ProShipping Test Data & Label Generation System</h1>
+          <p id="headerSubtitle">Dual-Agent Orchestration • Microsoft Foundry • Azure DevOps Pipeline 10516</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" onclick="openConfigModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Configure Credentials
+          </button>
+        </div>
+      </header>
+
+      <div class="view-canvas">
+
+        <!-- STAGE 1: Conversational Test Data Generator (Agent 1) -->
+        <section id="stage1" class="stage-card" data-module="proshipping">
+          <div class="stage-header">
+            <div class="stage-title">
+              <span class="stage-number">1</span>
+              <span>Stage 1: CSV Generator (<span id="agent1Label">ProShipperCSVGenerationAgent v5</span>)</span>
+            </div>
+          </div>
+
+          <!-- Agent 1 Chat Timeline -->
+          <div id="agent1ChatTimeline" class="chat-timeline">
+            <div class="chat-message agent">
+              <div class="avatar agent-avatar">A1</div>
+              <div class="message-body">
+                👋 Hello! I am the Royal Mail Test Data Generator Agent. Tell me what shipment data you would like me to generate (e.g. <em>"Generate 10 GB shipments from Manchester using Tracked 24"</em>).
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Input Bar for Agent 1 -->
+          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+            <input type="text" id="agent1ChatInput" style="flex: 1; min-width: 250px;" placeholder="Type your data generation request to Agent 1..." onkeydown="if(event.key==='Enter') sendAgent1Message()">
+            <button class="btn" onclick="sendAgent1Message()">Generate</button>
+            <button class="btn btn-secondary" style="border-color: #f39c12; color: #f39c12; white-space: nowrap;" onclick="loadPrevalidatedDummyData()">⚡ Quick Load Template</button>
+          </div>
+
+          <!-- Human Review CSV Table Panel -->
+          <div id="humanReviewPanel" style="display: none; margin-top: 24px; border-top: 1px dashed var(--border-color); padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-light);">Human Review Panel (Generated 140-Column CSV)</h3>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Editable • Inspect or edit cells before sending to Agent 2</span>
+            </div>
+
+            <div id="tableWrapper" class="table-container">
+              <!-- Rendered CSV table will go here -->
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 16px; justify-content: flex-end;">
+              <button class="btn btn-secondary" style="border-color: #f39c12; color: #f39c12;" onclick="loadPrevalidatedDummyData()">⚡ Load Dummy Success Data</button>
+              <button class="btn btn-secondary" onclick="exportCSVLocal()">Download CSV</button>
+              <button id="approveBtn" class="btn btn-success" onclick="approveAndSendToAgent2()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Approve & Generate Shipping Labels (Agent 2)
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STAGE 2: Agent 2 (ProShipper API & ADO Pipeline Trigger) -->
+        <section id="stage2" class="stage-card" data-module="proshipping">
+          <div class="stage-header">
+            <div class="stage-title">
+              <span class="stage-number">2</span>
+              <span>Stage 2: ProShipper API Call & Label Generation (<span id="agent2Label">test-proshipperapi-call v11</span>)</span>
+            </div>
+          </div>
+
+          <!-- Interactive Agent 2 Chat Timeline -->
+          <div id="chatTimeline" class="chat-timeline">
+            <div class="chat-message agent">
+              <div class="avatar agent-avatar">A2</div>
+              <div class="message-body">
+                👋 Ready to trigger the ProShipper shipping label pipeline. Approve a CSV in Stage 1 or type instructions here!
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Input Bar -->
+          <div style="display: flex; gap: 12px; margin-top: 16px; align-items: center;">
+            <input type="file" id="agent2FileInput" accept=".csv" style="display: none;" onchange="handleDirectCSVUpload(event)">
+            <input type="text" id="agent2ChatInput" placeholder="Type a message to Agent 2 (e.g. Use branch feature/x)..." onkeydown="if(event.key==='Enter') sendAgent2Message()">
+            <button class="btn btn-secondary" style="white-space: nowrap;" onclick="document.getElementById('agent2FileInput').click()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload CSV
+            </button>
+            <button class="btn" onclick="sendAgent2Message()">Send</button>
+            <button class="btn btn-secondary" style="white-space: nowrap;" onclick="sendCheckNowMessage()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Check Now
+            </button>
+          </div>
+        </section>
+
+        <!-- COSS MODULE: Single-stage COSS File Generation (COSS-File-Generation-Agent) -->
+        <section id="stageCoss" class="stage-card" data-module="coss">
+          <div class="stage-header">
+            <div class="stage-title">
+              <span class="stage-number">1</span>
+              <span>COSS File Generator (<span id="cossAgentLabel">COSS-File-Generation-Agent v1</span>)</span>
+            </div>
+          </div>
+
+          <div id="cossChatTimeline" class="chat-timeline">
+            <div class="chat-message agent">
+              <div class="avatar agent-avatar">C</div>
+              <div class="message-body">
+                👋 Hello! I am the COSS File Generation Agent. Describe the COSS file you need and I will generate it for you to review and download.
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+            <input type="text" id="cossChatInput" style="flex: 1; min-width: 250px;" placeholder="Type your COSS file generation request..." onkeydown="if(event.key==='Enter') sendCossMessage()">
+            <button class="btn" onclick="sendCossMessage()">Generate</button>
+            <button class="btn btn-secondary" onclick="resetCossConversation()">New Conversation</button>
+          </div>
+
+          <!-- COSS Output Review Panel -->
+          <div id="cossReviewPanel" style="display: none; margin-top: 24px; border-top: 1px dashed var(--border-color); padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 12px; flex-wrap: wrap;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-light);">Generated COSS File Review (CSV)</h3>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <select id="cossFileSelect" onchange="showCossFile(this.value)"></select>
+                <button id="cossViewTableBtn" class="btn" style="padding: 6px 12px; font-size: 0.8rem;" onclick="setCossView('table')">Table</button>
+                <button id="cossViewRawBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="setCossView('raw')">Raw CSV</button>
+              </div>
+            </div>
+            <p id="cossSummary" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;"></p>
+            <div id="cossTableWrapper" class="table-container"></div>
+            <textarea id="cossFileContent" rows="16" spellcheck="false" style="display: none; width: 100%; font-family: var(--font-mono); font-size: 0.8rem; white-space: pre; overflow-x: auto;" oninput="updateCossFileContent(this.value)"></textarea>
+            <div style="display: flex; gap: 12px; margin-top: 16px; justify-content: flex-end;">
+              <button class="btn btn-success" onclick="downloadCossFile()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download COSS CSV
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Configure Credentials Modal Drawer -->
+  <div id="configModal" class="modal-backdrop">
+    <div class="modal-card">
+      <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-light); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Configure Credentials & Agents</h2>
+
+      <div class="form-group">
+        <label for="tokenInput">Entra ID Access Token (https://ai.azure.com)</label>
+        <textarea id="tokenInput" rows="3" style="font-family: var(--font-mono); font-size: 0.8rem;" placeholder="Paste access token from az account get-access-token --resource https://ai.azure.com..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="cfgEndpoint">Foundry Project Endpoint URL</label>
+        <input type="text" id="cfgEndpoint">
+      </div>
+
+      <div class="form-group">
+        <label for="cfgGithubToken">GitHub Personal Access Token (Optional for Direct Fast Commits)</label>
+        <input type="password" id="cfgGithubToken" placeholder="ghp_... or github_pat_...">
+      </div>
+
+      <div class="form-group">
+        <label for="cfgGithubRepo">Stage 2 GitHub Repository (owner/repo)</label>
+        <input type="text" id="cfgGithubRepo" placeholder="royalmail/devops-ms-foundry-setup">
+      </div>
+
+      <div class="modal-row">
+        <div class="form-group">
+          <label for="cfgGithubBranch">Branch</label>
+          <input type="text" id="cfgGithubBranch" placeholder="feat/proshipping">
+        </div>
+        <div class="form-group">
+          <label for="cfgGithubFilePath">CSV File Path</label>
+          <input type="text" id="cfgGithubFilePath" placeholder="src/input.csv">
+        </div>
+      </div>
+
+      <div class="modal-row">
+        <div class="form-group">
+          <label for="cfgAgent1Name">Agent 1 Name</label>
+          <input type="text" id="cfgAgent1Name">
+        </div>
+        <div class="form-group">
+          <label for="cfgAgent1Version">Agent 1 Version</label>
+          <input type="text" id="cfgAgent1Version">
+        </div>
+      </div>
+
+      <div class="modal-row">
+        <div class="form-group">
+          <label for="cfgAgent2Name">Agent 2 Name</label>
+          <input type="text" id="cfgAgent2Name">
+        </div>
+        <div class="form-group">
+          <label for="cfgAgent2Version">Agent 2 Version</label>
+          <input type="text" id="cfgAgent2Version">
+        </div>
+      </div>
+
+      <div class="modal-row">
+        <div class="form-group">
+          <label for="cfgCossAgentName">COSS Agent Name</label>
+          <input type="text" id="cfgCossAgentName">
+        </div>
+        <div class="form-group">
+          <label for="cfgCossAgentVersion">COSS Agent Version</label>
+          <input type="text" id="cfgCossAgentVersion">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeConfigModal()">Cancel</button>
+        <button class="btn" onclick="saveConfigModal()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

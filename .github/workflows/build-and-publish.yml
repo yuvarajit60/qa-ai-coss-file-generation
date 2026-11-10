@@ -1,0 +1,87 @@
+
+name: CI - Build and Publish (Node.js)
+
+on:
+  push:
+    tags:
+      - '*'
+      - '!*-*'
+  workflow_dispatch:
+    inputs:
+      deploy_ALL:
+        description: 'Deploy to ALL environments (overrides individual selections)'
+        type: boolean
+        default: true
+      deploy_DEV:
+        description: 'Deploy to DEV'
+        type: boolean
+        default: false
+      deploy_QA:
+        description: 'Deploy to QA'
+        type: boolean
+        default: false
+      deploy_SIT:
+        description: 'Deploy to SIT'
+        type: boolean
+        default: false
+      deploy_PPD:
+        description: 'Deploy to PPD'
+        type: boolean
+        default: false
+      deploy_PRD:
+        description: 'Deploy to PRD'
+        type: boolean
+        default: false
+      action:
+        description: 'Terraform action'
+        type: choice
+        default: 'Apply'
+        options: [Plan, Apply]
+      deploymentRegion:
+        description: 'Select Deployment Region'
+        type: choice
+        default: 'ALL'
+        options: [ALL, PRIMARY, SECONDARY]
+      runRegression:
+        description: 'Run Regression during CD'
+        type: boolean
+        default: true
+      runMonitoring:
+        description: 'Run Monitoring during CD'
+        type: boolean
+        default: true
+      peTemplateVersion:
+        description: 'Pipeline Template Version'
+        type: string
+        default: 'refs/heads/version/v7'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  ci:
+
+    uses: royalmail/devops-github-actions/.github/workflows/ci-build-and-publish-node.yml@main
+
+    secrets: inherit
+    with:
+
+      package_name: "qa-ai-test-data-generator"
+      iac_script_path: "Terraform"
+      working_directory: 'src'
+      node_version: '22'
+      cloudsmith_domain: "qa"
+      ado_project: "Platforms and Products"
+      trigger_type: ${{ github.event_name }}
+      deploy_all: ${{ github.event.inputs.deploy_ALL || 'true' }}
+      deploy_dev: ${{ github.event.inputs.deploy_DEV || 'false' }}
+      deploy_qa: ${{ github.event.inputs.deploy_QA || 'false' }}
+      deploy_sit: ${{ github.event.inputs.deploy_SIT || 'false' }}
+      deploy_ppd: ${{ github.event.inputs.deploy_PPD || 'false' }}
+      deploy_prd: ${{ github.event.inputs.deploy_PRD || 'false' }}
+      deployment_region: ${{ inputs.deploymentRegion || 'ALL' }}
+      action: ${{ inputs.action || 'Apply' }}
+      run_regression: ${{ github.event.inputs.runRegression || 'true' }}
+      run_monitoring: ${{ github.event.inputs.runMonitoring || 'true' }}
+      pe_template_version: ${{ inputs.peTemplateVersion || 'refs/heads/version/v7' }}
